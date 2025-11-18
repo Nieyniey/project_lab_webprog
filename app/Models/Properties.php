@@ -15,11 +15,11 @@ class Properties extends Model
 
     public function user()
     {
-        return $this->belongsTo(Users::class, 'UserID');
+        return $this->belongsTo(User::class, 'UserID');
     }
 
     public function favorit()
     {
-        return $this->belongsToMany(Users::class, 'favorites', 'PropertyID', 'UserID');
+        return $this->belongsToMany(User::class, 'favorites', 'PropertyID', 'UserID');
     }
 }

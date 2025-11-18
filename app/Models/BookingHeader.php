@@ -10,7 +10,7 @@ class BookingHeader extends Model
 
      public function user()
     {
-        return $this->belongsTo(Users::class, 'UserID');
+        return $this->belongsTo(User::class, 'UserID');
     }
 
     public function bookingdetails()
