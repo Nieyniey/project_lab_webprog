@@ -1,0 +1,15 @@
+Calista:
+1. Login
+2. Register
+6. My Bookings
+7. Add Reviews
+10. Edit Property
+12. Profile
+
+Nash:
+3. Home
+4. Search Property
+5. Property Detail
+8. My Property
+9. Add Property
+11. Favorites
