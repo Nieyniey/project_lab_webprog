@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class AirinsController extends Controller
 {
-        // Show login page
+    // Show login page
     public function ShowLogin()
     {
         // Jika sudah login → redirect home
@@ -14,7 +15,7 @@ class AirinsController extends Controller
             return redirect()->route('home');
         }
 
-        return view('auth.login');
+        return view('layouts.login'); // memanggil file resources/views/login.blade.php
     }
 
     // Handle login
@@ -34,11 +35,11 @@ class AirinsController extends Controller
 
             // Jika "Remember Me" dicentang → buat cookie 2 jam
             if ($remember) {
-                Cookie::queue(Cookie::make('remember_token', Auth::user()->id, 120)); 
+                Cookie::queue(Cookie::make('remember_token', Auth::user()->id, 120));
                 // 120 menit = 2 jam
             }
 
-            return redirect()->route('home');
+            return redirect()->route('layouts.home');
         }
 
         // Jika salah → kirim error
@@ -50,29 +51,19 @@ class AirinsController extends Controller
     // Logout
     public function Logout()
     {
-        Auth::Logout();
+        Auth::logout();
         Cookie::queue(Cookie::forget('remember_token'));
 
-        return redirect()->route('login');
-    }
-    
-    public function EditProperty(){
-
+        return redirect()->route('layouts.login');
     }
 
-    public function MyBooking(){
+    public function EditProperty(){}
 
-    }
+    public function MyBooking(){}
 
-    public function Profile(){
+    public function Profile(){}
 
-    }
+    public function Register(){}
 
-    public function Register(){
-
-    }
-
-    public function Review(){
-
-    }
+    public function Review(){}
 }
