@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Reviews extends Model
 {
     protected $table = 'reviews';
+
+    protected $fillable = [
+        'BookingID',
+        'Rating',
+        'Comment',
+        'ReviewDate',
+    ];
+
     public function bookingheader()
     {
         return $this->belongsTo(BookingHeader::class, 'BookingID');

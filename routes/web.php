@@ -4,11 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AirinsControllerAuth;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\ReviewController; 
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
+// Login & Register
 Route::get('/login', [AirinsControllerAuth::class, 'ShowLogin'])->name('login');
 Route::post('/login', [AirinsControllerAuth::class, 'Login'])->name('login.post');
 
@@ -17,22 +15,22 @@ Route::post('/register', [AirinsControllerAuth::class, 'register'])->name('regis
 
 Route::post('/logout', [AirinsControllerAuth::class, 'Logout'])->name('logout');
 
-Route::get('/home', function () { return view('layouts.home');})->name('home');
+// Home
+Route::get('/home', function () { 
+    return view('layouts.home');
+})->name('home');
 
+// Protected Routes (harus login)
 Route::middleware('auth')->group(function () {
 
-    Route::get('/mybookings', [BookingController::class, 'index'])
-        ->name('mybookings');
+    // My Bookings
+    Route::get('/mybookings', [BookingController::class, 'index'])->name('mybookings');
+    Route::post('/cancel-booking/{id}', [BookingController::class, 'cancel'])->name('cancel.booking');
 
-    Route::post('/cancel-booking/{id}', [BookingController::class, 'cancel'])
-        ->name('cancel.booking');
+    // Property Detail
+    Route::get('/property/{id}', [PropertyController::class, 'detail'])->name('property.detail');
 
-    Route::get('/property/{id}', [PropertyController::class, 'detail'])
-        ->name('property.detail');
+    // Review Page 
+    Route::get('/review/{id}', [ReviewController::class, 'show'])->name('review.page');
+    Route::post('/review/{id}', [ReviewController::class, 'store'])->name('review.submit');
 });
-
-Route::get('/review/{id}', [ReviewController::class, 'show'])
-     ->name('review.page')
-     ->middleware('auth');
-
-

@@ -23,7 +23,7 @@
         @if ($booking->property)
             <a href="{{ route('property.detail', ['id' => $booking->property->id]) }}">
                 <img src="{{ asset('properties/' . $booking->property->Photos) }}"
-                    style="width:260px; height:160px; object-fit:cover; border-radius:12px;">
+                     style="width:260px; height:160px; object-fit:cover; border-radius:12px;">
             </a>
         @else
             <div style="
@@ -53,8 +53,9 @@
             @if ($booking->BookingStatus == 'completed')
                 <span style="color:green;">Booking completed</span>
 
+                {{-- BUTTON REVIEW YANG BENAR --}}
                 @if ($booking->ReviewStatus == 'not_reviewed')
-                    <a href="/review/{{ $booking->id }}"
+                    <a href="{{ route('review.page', $booking->id) }}"
                         style="float:right;
                             background:#ff4d8d;
                             color:white;
