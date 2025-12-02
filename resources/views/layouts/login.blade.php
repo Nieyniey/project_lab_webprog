@@ -5,7 +5,7 @@
 <div style="display:flex; justify-content:center; align-items:center; height:80vh;">
     <div style="width:380px; background:white; padding:30px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.1); text-align:center;">
         
-        <img src="/img/logo.png" alt="AirinS" width="80" class="mb-3">
+        <img src="/logo.jpg" alt="AirinS" width="80" class="mb-3">
 
         <h3 class="mb-4">Login to your account</h3>
 
