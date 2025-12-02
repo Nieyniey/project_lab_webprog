@@ -39,7 +39,7 @@ class AirinsController extends Controller
                 // 120 menit = 2 jam
             }
 
-            return redirect()->route('layouts.homeMember');
+            return redirect()->route('layouts.home');
         }
 
         // Jika salah → kirim error

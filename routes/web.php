@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AirinsController;
+use App\Http\Controllers\AirinsControllerAuth;
 
 // Guest
 Route::get('/login', [AirinsController::class, 'ShowLogin'])->name('login');
