@@ -7,19 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 class BookingHeader extends Model
 {
     protected $table = 'bookingheader';
+    protected $primaryKey = 'BookingID';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
-     public function user()
+    protected $fillable = [
+        'BookingID',
+        'UserID',
+        'PropertyID',
+        'BookingDate',
+        'CheckInDate',
+        'CheckOutDate',
+        'TotalPrice',
+        'BookingStatus',
+        'ReviewStatus',
+    ];
+
+    public function property()
     {
-        return $this->belongsTo(User::class, 'UserID');
+        return $this->belongsTo(Properties::class, 'PropertyID', 'PropertyID');
     }
 
-    public function bookingdetails()
+    public function user()
     {
-        return $this->hasMany(BookingDetail::class, 'BookingID');
-    }
-
-    public function review()
-    {
-        return $this->hasOne(Reviews::class, 'BookingID');
+        return $this->belongsTo(User::class, 'UserID', 'UserID');
     }
 }

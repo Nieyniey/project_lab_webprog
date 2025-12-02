@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AirinsControllerAuth;
+use App\Http\Controllers\BookingController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -16,3 +17,8 @@ Route::post('/register', [AirinsControllerAuth::class, 'register'])->name('regis
 Route::post('/logout', [AirinsControllerAuth::class, 'Logout'])->name('logout');
 
 Route::get('/home', function () { return view('layouts.home');})->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/mybookings', [BookingController::class, 'index'])->name('mybookings');
+    Route::post('/cancel-booking/{id}', [BookingController::class, 'cancel'])->name('cancel.booking');
+});
