@@ -8,6 +8,18 @@ class Properties extends Model
 {
     protected $table = 'properties';
 
+    protected $fillable = [
+        'user_id',
+        'title',
+        'location',
+        'category',
+        'description',
+        'photos',
+        'picture',
+        'isAvailable'
+    ];
+
+
      public function propertycategory()
     {
         return $this->belongsTo(PropertyCategories::class, 'CategoryID');
@@ -18,7 +30,7 @@ class Properties extends Model
         return $this->belongsTo(User::class, 'UserID');
     }
 
-    public function favorit()
+    public function favorite()
     {
         return $this->belongsToMany(User::class, 'favorites', 'PropertyID', 'UserID');
     }
