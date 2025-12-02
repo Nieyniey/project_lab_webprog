@@ -7,14 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class BookingDetail extends Model
 {
     protected $table = 'bookingdetail';
-    public function bookingheader()
-    {
-        return $this->belongsTo(BookingHeader::class, 'BookingID');
-    }
+    protected $primaryKey = 'id';
+    public $timestamps = false;
+
+    protected $fillable = [
+        'BookingID',
+        'PropertyID',
+        'GuestCount',
+        'PricePerNight'
+    ];
 
     public function property()
     {
-        return $this->belongsTo(Properties::class, 'PropertyID');
+        return $this->belongsTo(Properties::class, 'PropertyID', 'id');
     }
-
 }

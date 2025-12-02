@@ -7,20 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 class Properties extends Model
 {
     protected $table = 'properties';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
+    // PENTING: kolom yang bisa diisi (fillable)
     protected $fillable = [
-        'user_id',
-        'title',
-        'location',
-        'category',
-        'description',
-        'photos',
-        'picture',
-        'isAvailable'
+        'UserID',
+        'CategoryID',
+        'Title',
+        'Location',
+        'Description',
+        'Photos',
+        'Price',
+        'IsAvailable'
     ];
 
-
-     public function propertycategory()
+    public function propertycategory()
     {
         return $this->belongsTo(PropertyCategories::class, 'CategoryID');
     }
