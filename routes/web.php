@@ -15,20 +15,19 @@ Route::post('/register', [AirinsControllerAuth::class, 'register'])->name('regis
 
 Route::post('/logout', [AirinsControllerAuth::class, 'Logout'])->name('logout');
 
-// Home
-Route::get('/home', function () { 
-    return view('layouts.home');
-})->name('home');
+// Home and search
+Route::get('/', [PropertyController::class, 'home'])->name('home');
+Route::get('/search', [PropertyController::class, 'search'])->name('search');
 
 // Protected Routes (harus login)
 Route::middleware('auth')->group(function () {
+    // Property Detail
+    Route::get('/property/{id}', [PropertyController::class, 'detail'])->name('property.detail');
+    Route::post('/property/{id}/book', [BookingController::class, 'book'])->name('property.book');
 
     // My Bookings
     Route::get('/mybookings', [BookingController::class, 'index'])->name('mybookings');
     Route::post('/cancel-booking/{id}', [BookingController::class, 'cancel'])->name('cancel.booking');
-
-    // Property Detail
-    Route::get('/property/{id}', [PropertyController::class, 'detail'])->name('property.detail');
 
     // Review Page 
     Route::get('/review/{id}', [ReviewController::class, 'show'])->name('review.page');

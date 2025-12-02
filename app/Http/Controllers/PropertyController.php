@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Property;
-use App\Models\Category;
+use App\Models\Properties;
+use App\Models\PropertyCategories;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,39 +13,28 @@ class PropertyController extends Controller
     // home page
     public function home()
     {
-      // guest
-      $properties = Property::latest()->paginate(8);
-      if (!auth()->check()) {
-          return view('home_guest', compact('properties'));
-      }
-
-      // member/admin
-      return view('home_user', compact('properties'));
+        $properties = Properties::latest()->paginate(8);
+        return view('layouts.home', compact('properties'));
     }
 
-
-    // serach property page
+    // search property page
     public function search(Request $request)
     {
-        $keyword = $request->input('keyword');
+        $query = $request->input('q');  
 
-        $properties = Property::where('name', 'like', "%$keyword%")
-            ->orWhere('location', 'like', "%$keyword%")
+        // Search by title or location
+        $properties = Properties::where('title', 'like', "%$query%")
+            ->orWhere('location', 'like', "%$query%")
             ->paginate(8);
 
-        // guest
-        if (!auth()->check()) {
-            return view('search_guest', compact('properties', 'keyword'));
-        }
-
-        // members/admin
-        return view('search_user', compact('properties', 'keyword'));
+        return view('layouts.searchProperty', compact('properties', 'query'));
     }
 
     // property detail page
-    public function detail($id)
+    public function show($id)
     {
-        $property = Property::with(['category', 'reviews.user'])->findOrFail($id);
+        $property = Properties::with('user', 'propertycategory')->findOrFail($id);
+
         return view('layouts.propertyDetail', compact('property'));
     }
 

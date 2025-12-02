@@ -44,12 +44,16 @@
             margin-right: 20px;
             color: #333;
             font-weight: 500;
+            text-decoration: none !important;
+            color: inherit !important;
         }
 
         .btn-login {
             color: #333;
             margin-right: 15px;
             font-weight: 500;
+            text-decoration: none !important;
+            color: inherit !important;
         }
 
         .btn-signup {
@@ -59,6 +63,7 @@
             border-radius: 20px;
             font-weight: 600;
             border: none;
+            text-decoration: none !important;
         }
     </style>
 </head>
@@ -81,7 +86,16 @@
                 0 1 0 10z"/>
             </svg>
 
-            <input type="text" placeholder="Search properties...">
+            <form action="{{ route('search') }}" method="GET" class="d-flex search-form flex-fill">
+                <input 
+                    type="text" 
+                    name="q" 
+                    class="form-control border-0 bg-transparent"
+                    placeholder="Search properties..."
+                    value="{{ request('q') }}"
+                >
+            </form>
+
         </div>
 
         {{-- Navigation --}}
