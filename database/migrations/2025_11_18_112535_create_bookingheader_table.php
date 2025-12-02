@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bookingheader', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('UserID')->constrained('users')->onDelete('cascade');
-            $table->date('BookingDate');
-            $table->date('CheckInDate');
-            $table->date('CheckOutDate');
-            $table->bigInteger('TotalPrice');
-            $table->timestamps();
-        });
+            Schema::create('bookingheader', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('UserID')->constrained('users')->onDelete('cascade');
+                $table->date('BookingDate');
+                $table->date('CheckInDate');
+                $table->date('CheckOutDate');
+                $table->bigInteger('TotalPrice');
+                $table->string('BookingStatus')->default('upcoming');
+                $table->string('ReviewStatus')->default('not_reviewed');
+                $table->timestamps();
+            });
     }
 
     /**

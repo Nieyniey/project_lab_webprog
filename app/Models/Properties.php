@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Properties extends Model
 {
     protected $table = 'properties';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
+<<<<<<< HEAD
     protected $fillable = [
         'user_id',
         'title',
@@ -21,6 +25,9 @@ class Properties extends Model
 
 
      public function propertycategory()
+=======
+    public function propertycategory()
+>>>>>>> cal
     {
         return $this->belongsTo(PropertyCategories::class, 'CategoryID');
     }

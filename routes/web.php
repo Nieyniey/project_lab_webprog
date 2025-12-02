@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AirinsControllerAuth;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PropertyController;
 
 // Guest
 Route::get('/login', [AirinsController::class, 'ShowLogin'])->name('login');
@@ -18,6 +20,7 @@ Route::post('/property/{id}/book', [BookingController::class, 'book'])->name('bo
 // Member and Admin
 Route::middleware(['auth'])->group(function () {
 
+<<<<<<< HEAD
     Route::get('/profile', [AirinsController::class, 'Profile'])->name('profile');
 
     Route::get('/my-bookings', [BookingController::class, 'myBookings'])->name('bookings');
@@ -31,3 +34,24 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/my-properties', [PropertyController::class, 'myProperties'])->name('myProperties');
 });
+=======
+Route::get('/home', function () { return view('layouts.home');})->name('home');
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/mybookings', [BookingController::class, 'index'])
+        ->name('mybookings');
+
+    Route::post('/cancel-booking/{id}', [BookingController::class, 'cancel'])
+        ->name('cancel.booking');
+
+    Route::get('/property/{id}', [PropertyController::class, 'detail'])
+        ->name('property.detail');
+});
+
+Route::get('/review/{id}', [ReviewController::class, 'show'])
+     ->name('review.page')
+     ->middleware('auth');
+
+
+>>>>>>> cal
