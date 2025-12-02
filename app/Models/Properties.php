@@ -11,23 +11,19 @@ class Properties extends Model
     public $incrementing = true;
     protected $keyType = 'int';
 
-<<<<<<< HEAD
+    // PENTING: kolom yang bisa diisi (fillable)
     protected $fillable = [
-        'user_id',
-        'title',
-        'location',
-        'category',
-        'description',
-        'photos',
-        'picture',
-        'isAvailable'
+        'UserID',
+        'CategoryID',
+        'Title',
+        'Location',
+        'Description',
+        'Photos',
+        'Price',
+        'IsAvailable'
     ];
 
-
-     public function propertycategory()
-=======
     public function propertycategory()
->>>>>>> cal
     {
         return $this->belongsTo(PropertyCategories::class, 'CategoryID');
     }
