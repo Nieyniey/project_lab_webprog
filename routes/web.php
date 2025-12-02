@@ -15,14 +15,14 @@ Route::post('/register', [AirinsControllerAuth::class, 'register'])->name('regis
 
 Route::post('/logout', [AirinsControllerAuth::class, 'Logout'])->name('logout');
 
-// Home and search
+// Home and Search Page
 Route::get('/', [PropertyController::class, 'home'])->name('home');
 Route::get('/search', [PropertyController::class, 'search'])->name('search');
+Route::get('/property/{id}', [PropertyController::class, 'show'])->name('property.detail');
 
 // Protected Routes (harus login)
 Route::middleware('auth')->group(function () {
-    // Property Detail
-    Route::get('/property/{id}', [PropertyController::class, 'detail'])->name('property.detail');
+    // Property Detail Book
     Route::post('/property/{id}/book', [BookingController::class, 'book'])->name('property.book');
 
     // My Bookings

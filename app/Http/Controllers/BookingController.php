@@ -16,9 +16,9 @@ class BookingController extends Controller
             'guests' => 'required|integer|min:1'
         ]);
 
-        $property = Properties::findOrFail($id);
+        $properties = Properties::findOrFail($id);
 
-        $alreadyBooked = Booking::where('property_id', $id)
+        $alreadyBooked = BookingHeader::where('property_id', $id)
             ->where(function ($q) use ($request) {
                 $q->whereBetween('check_in', [$request->check_in, $request->check_out])
                   ->orWhereBetween('check_out', [$request->check_in, $request->check_out]);
@@ -29,7 +29,7 @@ class BookingController extends Controller
             return back()->with('error', 'The property is unavailable for the selected dates. Please select another range.');
         }
 
-        Booking::create([
+        BookingHeader::create([
             'user_id' => auth()->id(),
             'property_id' => $id,
             'check_in' => $request->check_in,

@@ -33,9 +33,9 @@ class PropertyController extends Controller
     // property detail page
     public function show($id)
     {
-        $property = Properties::with('user', 'propertycategory')->findOrFail($id);
+        $properties = Properties::with('user', 'propertycategory')->findOrFail($id);
 
-        return view('layouts.propertyDetail', compact('property'));
+        return view('layouts.propertyDetail', compact('properties'));
     }
 
     // add property page

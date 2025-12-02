@@ -79,7 +79,7 @@
 
                   <div class="property-info">
                       <h3>{{ $p->Title }}</h3>
-                      <p>{{ $p->propertycategory->PropertyCategoryName }}</p>
+                      <p>{{ $p->Location }}</p>
                       <div class="property-price">Rp {{ number_format($p->price, 0, ',', '.') }}
                           <span class="per-night"> / night</span></div>
                   </div>
