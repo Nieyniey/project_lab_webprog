@@ -7,9 +7,9 @@ use App\Http\Controllers\PropertyController;
 
 // Guest
 Route::get('/login', [AirinsController::class, 'ShowLogin'])->name('login');
-Route::post('/login', [AirinsController::class, 'Login'])->name('login.post');
+Route::post('/login', [AirinsControllerAuth::class, 'Login'])->name('login.post');
 Route::post('/logout', [AirinsController::class, 'Logout'])->name('logout');
-Route::get('/register', [AirinsController::class, 'Register'])->name('register');
+Route::get('/register', [AirinsControllerAuth::class, 'Register'])->name('register');
 
 Route::get('/', [PropertyController::class, 'home'])->name('home');
 Route::get('/search', [PropertyController::class, 'search'])->name('search');
