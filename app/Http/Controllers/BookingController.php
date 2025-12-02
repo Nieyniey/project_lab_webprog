@@ -12,9 +12,8 @@ class BookingController extends Controller
     {
         $user = Auth::user();
 
-        // Ambil semua booking user + relasi property
         $bookings = BookingHeader::with('property')
-            ->where('UserID', $user->UserID)   // <- FIX: user->UserID bukan user->id
+            ->where('UserID', $user->id)
             ->orderBy('CheckInDate', 'asc')
             ->get();
 
@@ -25,15 +24,13 @@ class BookingController extends Controller
     {
         $booking = BookingHeader::findOrFail($id);
 
-        // Pastikan hanya pemilik booking yang bisa cancel
-        if ($booking->UserID !== Auth::user()->UserID) {
+        if ($booking->UserID != Auth::id()) {
             abort(403, 'Unauthorized');
         }
 
-        // Update status
         $booking->BookingStatus = 'cancelled';
         $booking->save();
 
-        return redirect()->back()->with('success', 'Booking cancelled successfully.');
+        return back()->with('success', 'Booking cancelled.');
     }
 }

@@ -13,13 +13,15 @@ class BookingHeaderSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('bookingheaders')->insert([
+        DB::table('bookingheader')->insert([
             [
             'UserID' => 2,
             'BookingDate' => now(),
             'CheckInDate' => now()->addDays(2),
             'CheckOutDate' => now()->addDays(5),
-            'TotalPrice' => 1500000
+            'TotalPrice' => 1500000,
+            // 'BookingStatus' => 'completed',
+            // 'ReviewStatus' => 'not_reviewed'
             ],
             [
             'UserID' => 3,
@@ -27,6 +29,8 @@ class BookingHeaderSeeder extends Seeder
             'CheckInDate' => now()->subDays(8),
             'CheckOutDate' => now()->subDays(5),
             'TotalPrice' => 3600000
+            // 'BookingStatus' => 'completed',
+            // 'ReviewStatus' => 'not_reviewed'
             ],
         ]);
     }

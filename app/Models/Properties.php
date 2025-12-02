@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Properties extends Model
 {
     protected $table = 'properties';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
-     public function propertycategory()
+    public function propertycategory()
     {
         return $this->belongsTo(PropertyCategories::class, 'CategoryID');
     }
