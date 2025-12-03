@@ -5,6 +5,7 @@ use App\Http\Controllers\AirinsControllerAuth;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ReviewController; 
+use App\Http\Controllers\ProfileController;
 
 // Login & Register
 Route::get('/login', [AirinsControllerAuth::class, 'ShowLogin'])->name('login');
@@ -42,4 +43,10 @@ Route::middleware('auth')->group(function () {
     // Review Page 
     Route::get('/review/{id}', [ReviewController::class, 'show'])->name('review.page');
     Route::post('/review/{id}', [ReviewController::class, 'store'])->name('review.submit');
+});
+
+// user profile
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
