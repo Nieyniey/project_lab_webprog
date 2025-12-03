@@ -67,14 +67,15 @@ class BookingController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
         $bookings = BookingHeader::with('property')
-            ->where('user_id', Auth::id())
-            ->orderBy('check_in', 'asc')
+            ->where('UserID', $user->id)
+            ->orderBy('CheckInDate', 'asc')
             ->get();
 
         return view('layouts.mybooking', compact('bookings'));
     }
-
 
     public function cancel($id)
     {
