@@ -129,7 +129,7 @@ class PropertyController extends Controller
         $categories = PropertyCategories::all();
 
         // only admin OR property owner can edit
-        if (Auth::user()->role !== 'admin' && $property->user_id !== Auth::id()) {
+        if (Auth::user()->role !== 'admin' && $property->UserID !== Auth::id()) {
             return redirect('/')->with('error', 'You do not have permission to edit this property.');
         }
 
@@ -140,8 +140,8 @@ class PropertyController extends Controller
     {
         $property = Properties::findOrFail($id);
 
-        // only admin or owner can update
-        if (Auth::user()->role !== 'admin' && $property->user_id !== Auth::id()) {
+        // only admin OR owner can update
+        if (Auth::user()->role !== 'admin' && $property->UserID !== Auth::id()) {
             return redirect('/')->with('error', 'You do not have permission to update this property.');
         }
 
@@ -152,20 +152,19 @@ class PropertyController extends Controller
             'category_id' => 'required|exists:propertycategories,id',
             'price' => 'required|numeric|min:1',
             'description' => 'required',
-            'photos' => 'nullable|image|max:10240' // optional
+            'photos' => 'nullable|image|max:10240'
         ]);
 
         // update data
-        $property->title = $request->title;
-        $property->location = $request->location;
+        $property->Title = $request->title;
+        $property->Location = $request->location;
         $property->CategoryID = $request->category_id;
-        $property->price = $request->price;
-        $property->description = $request->description;
+        $property->Price = $request->price;
+        $property->Description = $request->description;
 
-        // update photo if uploaded
         if ($request->hasFile('photos')) {
             $path = $request->file('photos')->store('properties', 'public');
-            $property->photos = $path;
+            $property->Photos = $path;
         }
 
         $property->save();
@@ -173,7 +172,5 @@ class PropertyController extends Controller
         return redirect()->route('myProperties')
             ->with('success', 'Property updated successfully.');
     }
-
-
     
 }

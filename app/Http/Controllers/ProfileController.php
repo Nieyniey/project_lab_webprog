@@ -32,7 +32,6 @@ class ProfileController extends Controller
             'gender' => $request->gender,
         ]);
 
-        // Redirect lagi ke profile dengan pesan sukses
-        return redirect()->route('profile')->with('success', 'Profile updated successfully.');
+        return redirect()->route('home')->with('success', 'Profile updated successfully.');
     }
 }
