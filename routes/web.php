@@ -37,8 +37,13 @@ Route::middleware('auth')->group(function () {
     // Route::get('/property/{id}/edit', [PropertyController::class, 'edit'])->name('property.edit');
 
     // My Bookings
+    // Route::get('/mybookings', [BookingController::class, 'index'])->name('mybookings');
+    // Route::post('/cancel-booking/{id}', [BookingController::class, 'cancel'])->name('cancel.booking');
+    Route::middleware(['auth', 'member'])->group(function () {
     Route::get('/mybookings', [BookingController::class, 'index'])->name('mybookings');
     Route::post('/cancel-booking/{id}', [BookingController::class, 'cancel'])->name('cancel.booking');
+    });
+
 
     // Review Page 
     Route::get('/review/{id}', [ReviewController::class, 'show'])->name('review.page');
