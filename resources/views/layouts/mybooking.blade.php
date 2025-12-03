@@ -22,7 +22,7 @@
         {{-- Thumbnail --}}
         @if ($booking->property)
             <a href="{{ route('property.detail', ['id' => $booking->property->id]) }}">
-                <img src="{{ asset('storage/' . $booking->property->Photos) }}"
+                <img src="{{ asset('properties/' . $booking->property->Photos) }}"
                      style="width:260px; height:160px; object-fit:cover; border-radius:12px;">
             </a>
         @else
@@ -41,39 +41,47 @@
             <p>{{ $booking->property->Location ?? '-' }}</p>
 
             <p>
-                Check-in: {{ $booking->check_in }} <br>
-                Check-out: {{ $booking->check_out }}
+                Check-in: {{ $booking->CheckInDate }} <br>
+                Check-out: {{ $booking->CheckOutDate }}
             </p>
 
             <h5 style="color:#ff4d8d;">
-                Rp {{ number_format($booking->total_price, 0, ',', '.') }}
+                Rp {{ number_format($booking->TotalPrice, 0, ',', '.') }}
             </h5>
 
             {{-- Status --}}
-            @if ($booking->BookingStatus === 'completed')
+            @if ($booking->BookingStatus == 'completed')
                 <span style="color:green;">Booking completed</span>
 
-                @if ($booking->ReviewStatus === 'not_reviewed')
+                {{-- BUTTON REVIEW YANG BENAR --}}
+                @if ($booking->ReviewStatus == 'not_reviewed')
                     <a href="{{ route('review.page', $booking->id) }}"
-                        style="float:right; background:#ff4d8d; color:white;
-                            padding:8px 14px; border-radius:8px;">
+                        style="float:right;
+                            background:#ff4d8d;
+                            color:white;
+                            padding:8px 14px;
+                            border-radius:8px;">
                         Leave a Review
                     </a>
                 @endif
 
-            @elseif ($booking->BookingStatus === 'upcoming')
+            @elseif ($booking->BookingStatus == 'upcoming')
                 <form action="{{ route('cancel.booking', $booking->id) }}"
                       method="POST" style="float:right;">
                     @csrf
                     <button type="submit"
                         onclick="return confirm('Cancel this booking?')"
-                        style="background:#ff4d8d; color:white; padding:8px 14px;
-                            border-radius:8px; border:none;">
+                        style="
+                            background:#ff4d8d;
+                            color:white;
+                            padding:8px 14px;
+                            border-radius:8px;
+                            border:none;">
                         Cancel Booking
                     </button>
                 </form>
 
-            @elseif ($booking->BookingStatus === 'cancelled')
+            @elseif ($booking->BookingStatus == 'cancelled')
                 <span style="color:red;">Cancelled</span>
             @endif
 
