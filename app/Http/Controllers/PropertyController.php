@@ -54,8 +54,8 @@ class PropertyController extends Controller
             'photos' => 'required|image|max:10240'
         ]);
 
-        $path = $request->file('photos')->hashName();
-        $path->store('properties', 'public');
+        // Store the uploaded file
+        $path = $request->file('photos')->store('properties', 'public');
 
         Properties::create([
             'UserID' => Auth::id(),
@@ -64,7 +64,7 @@ class PropertyController extends Controller
             'CategoryID' => $request->category_id,
             'Price' => $request->price,
             'Description' => $request->description,
-            'Photos' => $path,
+            'Photos' => basename($path),   
             'IsAvailable' => 1,
         ]);
 
