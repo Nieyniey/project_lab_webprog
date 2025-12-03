@@ -42,7 +42,8 @@ Route::middleware('auth')->group(function () {
 
     // Review Page 
     Route::get('/review/{id}', [ReviewController::class, 'show'])->name('review.page');
-    Route::post('/review/{id}', [ReviewController::class, 'store'])->name('review.submit');    
+    Route::post('/review/{id}', [ReviewController::class, 'store'])->name('review.submit');  
+
 });
 
 // // user profile

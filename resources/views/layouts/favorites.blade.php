@@ -10,19 +10,25 @@
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm rounded">
                     <div class="position-relative">
-                        <img src="{{ asset('storage/properties/' . $property->Photos) }}" class="card-img-top rounded" alt="{{ $property->Title }}">
-                        <button class="btn btn-light position-absolute top-0 end-0 m-2 p-1 rounded-circle" style="width: 30px; height: 30px;">
-                            <i class="fa fa-heart text-danger"></i> {{-- Use filled heart for favorites --}}
-                        </button>
+                        <img src="{{ asset('/properties/' . $property->Photos) }}" class="card-img-top rounded" alt="{{ $property->Title }}">
+                        <form action="{{ route('favorite.toggle', $property->id) }}" 
+                            method="POST"
+                            class="position-absolute top-0 end-0 m-2">
+                            @csrf
+                            <button type="submit" class="btn btn-light p-1 rounded-circle" 
+                                    style="width: 30px; height: 30px;">
+                                <i class="fa fa-heart text-danger"></i>
+                            </button>
+                        </form>
                     </div>
                     <div class="card-body">
                         <h6 class="fw-bold mb-1">{{ $property->Title }}</h6>
                         <p class="text-muted mb-1">{{ $property->Location }}</p>
                         <p class="text-danger fw-bold mb-1">Rp {{ number_format($property->Price, 0, ',', '.') }}</p>
-                        <a href="{{ route('property.detail', $p->id) }}" 
-                           class="text-primary fw-semibold"
-                           style="text-decoration: none !important; color: inherit !important;">
-                            View Detail →;
+                        <a href="{{ route('property.detail', $property->id) }}" 
+                           class="fw-semibold"
+                           style="color: #ff4d8d; text-decoration: none;">
+                            View Detail →
                         </a>
                     </div>
                 </div>

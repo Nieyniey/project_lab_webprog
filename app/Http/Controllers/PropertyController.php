@@ -88,6 +88,7 @@ class PropertyController extends Controller
         return view('layouts.myProperties', compact('properties'));
     }
 
+    // Favorites Page
     public function favorites()
     {
         $favorites = auth()->user()
@@ -96,6 +97,23 @@ class PropertyController extends Controller
             ->get();
 
         return view('layouts.favorites', compact('favorites'));
+    }
+
+    // Favorites Toggle Page
+    public function toggleFavorite($id)
+    {
+        $property = Properties::findOrFail($id);
+        $user = auth()->user();
+
+        // Check if already favorited
+        if ($user->favorites()->where('PropertyID', $id)->exists()) {
+            $user->favorites()->detach($id);
+            return back()->with('message', 'Removed from favorites');
+        }
+
+        // Add to favorites
+        $user->favorites()->attach($id);
+        return back()->with('message', 'Added to favorites');
     }
 
     // Edit property (DUMMY)
