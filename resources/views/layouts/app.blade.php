@@ -145,16 +145,16 @@
             <div class="dropdown ms-3">
 
                 <a href="#" class="user-dropdown-toggle" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    Hello, {{ Auth::user()->Name }}
+                    Hello, {{ Auth::user()->name }}
                     <span class="arrow">&#9662;</span>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userMenu">
                     <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                    <li><a class="dropdown-item" href="/bookings">My Bookings</a></li>
+                    <li><a class="dropdown-item" href="/mybookings">My Bookings</a></li>
                     <li><a class="dropdown-item" href="/favorites">Favorites</a></li>
                     <li><a class="dropdown-item" href="/property/add">Add Property</a></li>
-                    <li><a class="dropdown-item" href="/my-properties">My Properties</a></li>
+                    <li><a class="dropdown-item" href="/myproperties">My Properties</a></li>
                     
                     <li><hr class="dropdown-divider"></li>
 

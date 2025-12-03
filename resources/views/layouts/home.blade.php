@@ -53,11 +53,10 @@
     }
 
     .per-night {
-    color: #555;
-    font-weight: 400;
+        color: #555;
+        font-weight: 400;
     }
 </style>
-
 
 <div class="property-grid">
     @foreach ($properties as $p)

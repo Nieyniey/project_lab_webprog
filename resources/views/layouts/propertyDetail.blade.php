@@ -153,7 +153,7 @@
             <p class="text-muted-custom">
                 Hosted by 
                 <strong style="font-weight:700;">
-                    {{ $properties->user->Role == 'admin' ? 'Admin User' : $properties->user->Name }}
+                    {{ $properties->user->role == 'admin' ? 'Admin User' : $properties->user->name }}
                 </strong>
             </p>
 
@@ -251,7 +251,7 @@
 
                     {{-- Top row: name + rating --}}
                     <div class="d-flex justify-content-between">
-                        <strong>{{ $review->bookingheader->user->Name }}</strong>
+                        <strong>{{ $review->bookingheader->user->name }}</strong>
                         <span class="review-rating">{{ $review->Rating ?? '—' }} ★</span>
                     </div>
 

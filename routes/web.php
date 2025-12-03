@@ -22,8 +22,14 @@ Route::get('/property/{id}', [PropertyController::class, 'show'])->name('propert
 
 // Protected Routes (harus login)
 Route::middleware('auth')->group(function () {
-    // Property Detail Book
+    // Property Detail Booking
     Route::post('/property/{id}/book', [BookingController::class, 'book'])->name('property.book');
+
+    // My Properties
+    Route::get('/myproperties', [PropertyController::class, 'myProperties'])->name('myProperties');
+
+    // Edit Properties
+    Route::get('/property/{id}/edit', [PropertyController::class, 'edit'])->name('property.edit');
 
     // My Bookings
     Route::get('/mybookings', [BookingController::class, 'index'])->name('mybookings');

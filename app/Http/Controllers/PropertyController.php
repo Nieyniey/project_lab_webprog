@@ -73,14 +73,24 @@ class PropertyController extends Controller
     // My properties
     public function myProperties()
     {
-        $user = Auth::user();
+        if (auth()->user()->role == 'admin') {
+            $properties = Properties::with('propertycategory')->latest()->get();
+        } 
 
-        if ($user->role === 'admin') {
-            $properties = Properties::paginate(8);
-        } else {
-            $properties = Properties::where('user_id', $user->id)->paginate(8);
+        else {
+            $properties = Properties::with('propertycategory')
+                ->where('UserID', auth()->id())
+                ->latest()
+                ->get();
         }
 
         return view('layouts.myProperties', compact('properties'));
+    }
+
+    // Edit property (DUMMY)
+    public function edit($id)
+    {
+        $properties = Properties::with('user', 'propertycategory')->findOrFail($id);
+        return view('layouts.propertyDetail', compact('properties'));
     }
 }
