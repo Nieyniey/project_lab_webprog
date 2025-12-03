@@ -16,11 +16,13 @@
                         </button>
                     </div>
                     <div class="card-body">
-                        <h6 class="card-title fw-bold">{{ $property->Title }}</h6>
-                        <p class="text-muted small">{{ $property->Location }}</p>
-                        <p class="text-danger fw-bold">Rp {{ number_format($property->Price, 0, ',', '.') }}</p>
-                        <a href="{{ route('property.detail', $property->id) }}" class="text-danger small text-decoration-none">
-                            View Detail &rarr;
+                        <h6 class="fw-bold mb-1">{{ $property->Title }}</h6>
+                        <p class="text-muted mb-1">{{ $property->Location }}</p>
+                        <p class="text-danger fw-bold mb-1">Rp {{ number_format($property->Price, 0, ',', '.') }}</p>
+                        <a href="{{ route('property.detail', $p->id) }}" 
+                           class="text-primary fw-semibold"
+                           style="text-decoration: none !important; color: inherit !important;">
+                            View Detail →;
                         </a>
                     </div>
                 </div>

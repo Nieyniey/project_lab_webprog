@@ -21,7 +21,7 @@ Route::get('/', [PropertyController::class, 'home'])->name('home');
 Route::get('/search', [PropertyController::class, 'search'])->name('search');
 Route::get('/property/{id}', [PropertyController::class, 'show'])->name('property.detail');
 
-// Protected Routes (harus login)
+// Admin and Members Only
 Route::middleware('auth')->group(function () {
     // Property Detail Booking
     Route::post('/property/{id}/book', [BookingController::class, 'book'])->name('property.book');
@@ -42,14 +42,17 @@ Route::middleware('auth')->group(function () {
 
     // Review Page 
     Route::get('/review/{id}', [ReviewController::class, 'show'])->name('review.page');
-    Route::post('/review/{id}', [ReviewController::class, 'store'])->name('review.submit');
-
-    // Favorite Page
-    Route::get('/favorites', [PropertyController::class, 'favorites'])->name('favorites');
+    Route::post('/review/{id}', [ReviewController::class, 'store'])->name('review.submit');    
 });
 
 // user profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+// Members Only (kalau testing, ini di comment aja)
+Route::middleware(['auth', 'member'])->group(function () {
+    // Favorite Page
+    Route::get('/favorites', [PropertyController::class, 'favorites'])->name('favorites');
 });

@@ -38,7 +38,7 @@ class PropertyController extends Controller
     // Add property page
     public function showAdd()
     {
-        $categories = PropertyCategories::all();
+        $categories = PropertyCategories::latest()->paginate(6);;
         return view('layouts.addProperty', compact('categories'));
     }
 
