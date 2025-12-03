@@ -153,7 +153,7 @@
                     <li><a class="dropdown-item" href="/profile">Profile</a></li>
                     <li><a class="dropdown-item" href="/mybookings">My Bookings</a></li>
                     <li><a class="dropdown-item" href="/favorites">Favorites</a></li>
-                    <li><a class="dropdown-item" href="/property/add">Add Property</a></li>
+                    <li><a class="dropdown-item" href="/addproperty">Add Property</a></li>
                     <li><a class="dropdown-item" href="/myproperties">My Properties</a></li>
                     
                     <li><hr class="dropdown-divider"></li>

@@ -28,6 +28,10 @@ Route::middleware('auth')->group(function () {
     // My Properties
     Route::get('/myproperties', [PropertyController::class, 'myProperties'])->name('myProperties');
 
+    // Add Property
+    Route::get('/addproperty', [PropertyController::class, 'showAdd'])->name('property.add');
+    Route::post('/property/store', [PropertyController::class, 'store'])->name('property.store');
+
     // Edit Properties
     Route::get('/property/{id}/edit', [PropertyController::class, 'edit'])->name('property.edit');
 

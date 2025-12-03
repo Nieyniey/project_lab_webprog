@@ -48,23 +48,24 @@ class PropertyController extends Controller
         $request->validate([
             'title' => 'required',
             'location' => 'required',
-            'category_id' => 'required|exists:property_categories,id',
+            'category_id' => 'required|exists:propertycategories,id',
             'description' => 'required',
             'price' => 'required|numeric|min:1',
-            'photo' => 'required|image|max:10240'
+            'photos' => 'required|image|max:10240'
         ]);
 
-        $path = $request->file('photo')->store('properties', 'public');
+        $path = $request->file('photos')->hashName();
+        $path->store('properties', 'public');
 
         Properties::create([
-            'user_id' => Auth::id(),
-            'title' => $request->title,
-            'location' => $request->location,
-            'category_id' => $request->category_id,
-            'price' => $request->price,
-            'description' => $request->description,
-            'photos' => $path,
-            'isAvailable' => true,
+            'UserID' => Auth::id(),
+            'Title' => $request->title,
+            'Location' => $request->location,
+            'CategoryID' => $request->category_id,
+            'Price' => $request->price,
+            'Description' => $request->description,
+            'Photos' => $path,
+            'IsAvailable' => 1,
         ]);
 
         return redirect()->route('myProperties')->with('success', 'Property added successfully!');
