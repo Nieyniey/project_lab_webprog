@@ -45,7 +45,6 @@
             color: #333;
             font-weight: 500;
             text-decoration: none !important;
-            color: inherit !important;
         }
 
         .btn-login {
@@ -53,7 +52,6 @@
             margin-right: 15px;
             font-weight: 500;
             text-decoration: none !important;
-            color: inherit !important;
         }
 
         .btn-signup {
@@ -63,7 +61,6 @@
             border-radius: 20px;
             font-weight: 600;
             border: none;
-            text-decoration: none !important;
         }
 
         .user-dropdown-toggle {
@@ -78,25 +75,11 @@
             color: #000;
         }
 
-        .user-dropdown-toggle .arrow {
-            margin-left: 6px;
-            font-size: 12px;
-        }
-
         .user-dropdown-menu {
             width: 180px;
             border-radius: 12px;
             padding: 8px 0;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-
-        .user-dropdown-menu .dropdown-item {
-            font-size: 14px;
-            padding: 8px 15px;
-        }
-
-        .user-dropdown-menu .dropdown-item:hover {
-            background: #f4f4f4;
         }
     </style>
 </head>
@@ -105,13 +88,13 @@
 
     {{-- NAVBAR AIRINS --}}
     <nav class="navbar-airins d-flex align-items-center">
-        
+
         {{-- Logo --}}
         <a href="/" class="nav-logo">AirInS</a>
 
         {{-- Search Box --}}
         <div class="search-box">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#777" class="" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#777" viewBox="0 0 16 16">
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 
                 1.398h-.001l3.85 3.85a1 1 0 0 0 
                 1.415-1.414l-3.85-3.85zm-5.242 
@@ -128,7 +111,6 @@
                     value="{{ request('q') }}"
                 >
             </form>
-
         </div>
 
         {{-- Navigation --}}
@@ -143,13 +125,12 @@
         {{-- If logged in --}}
         @auth
             <div class="dropdown ms-3">
-
-                <a href="#" class="user-dropdown-toggle" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" class="user-dropdown-toggle" id="userMenu" data-bs-toggle="dropdown">
                     Hello, {{ Auth::user()->name }}
                     <span class="arrow">&#9662;</span>
                 </a>
 
-                <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userMenu">
+                <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
                     <li><a class="dropdown-item" href="/profile">Profile</a></li>
                     <li><a class="dropdown-item" href="/mybookings">My Bookings</a></li>
                     <li><a class="dropdown-item" href="/favorites">Favorites</a></li>
@@ -168,6 +149,25 @@
             </div>
         @endauth
     </nav>
+
+    {{-- GLOBAL FLASH MESSAGE SECTION --}}
+    <div class="container mt-3">
+
+        {{-- ERROR MESSAGE --}}
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        {{-- SUCCESS MESSAGE --}}
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+    </div>
 
     {{-- Page Content --}}
     <div>

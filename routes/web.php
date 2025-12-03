@@ -45,14 +45,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/review/{id}', [ReviewController::class, 'store'])->name('review.submit');    
 });
 
-// user profile
-Route::middleware('auth')->group(function () {
+// // user profile
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+//     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+// });
+
+// Members Only (kalau testing, ini di comment aja)
+// Route::middleware(['auth', 'member'])->group(function () {
+//     // Favorite Page
+//     Route::get('/favorites', [PropertyController::class, 'favorites'])->name('favorites');
+// });
+
+// user profile (only member can access)
+Route::middleware(['auth', 'member'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-// Members Only (kalau testing, ini di comment aja)
-Route::middleware(['auth', 'member'])->group(function () {
-    // Favorite Page
-    Route::get('/favorites', [PropertyController::class, 'favorites'])->name('favorites');
-});
