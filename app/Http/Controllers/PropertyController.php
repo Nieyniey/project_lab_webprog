@@ -117,11 +117,63 @@ class PropertyController extends Controller
     }
 
     // Edit property (DUMMY)
+    // public function edit($id)
+    // {
+    //     $properties = Properties::with('user', 'propertycategory')->findOrFail($id);
+    //     return view('layouts.propertyDetail', compact('properties'));
+    // }
+
     public function edit($id)
     {
-        $properties = Properties::with('user', 'propertycategory')->findOrFail($id);
-        return view('layouts.propertyDetail', compact('properties'));
+        $property = Properties::findOrFail($id);
+        $categories = PropertyCategories::all();
+
+        // only admin OR property owner can edit
+        if (Auth::user()->role !== 'admin' && $property->user_id !== Auth::id()) {
+            return redirect('/')->with('error', 'You do not have permission to edit this property.');
+        }
+
+        return view('layouts.editproperty', compact('property', 'categories'));
     }
+
+    public function update(Request $request, $id)
+    {
+        $property = Properties::findOrFail($id);
+
+        // only admin or owner can update
+        if (Auth::user()->role !== 'admin' && $property->user_id !== Auth::id()) {
+            return redirect('/')->with('error', 'You do not have permission to update this property.');
+        }
+
+        // validation
+        $request->validate([
+            'title' => 'required',
+            'location' => 'required',
+            'category_id' => 'required|exists:propertycategories,id',
+            'price' => 'required|numeric|min:1',
+            'description' => 'required',
+            'photos' => 'nullable|image|max:10240' // optional
+        ]);
+
+        // update data
+        $property->title = $request->title;
+        $property->location = $request->location;
+        $property->CategoryID = $request->category_id;
+        $property->price = $request->price;
+        $property->description = $request->description;
+
+        // update photo if uploaded
+        if ($request->hasFile('photos')) {
+            $path = $request->file('photos')->store('properties', 'public');
+            $property->photos = $path;
+        }
+
+        $property->save();
+
+        return redirect()->route('myProperties')
+            ->with('success', 'Property updated successfully.');
+    }
+
 
     
 }

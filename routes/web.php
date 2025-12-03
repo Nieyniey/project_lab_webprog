@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/property/store', [PropertyController::class, 'store'])->name('property.store');
 
     // Edit Properties
-    Route::get('/property/{id}/edit', [PropertyController::class, 'edit'])->name('property.edit');
+    // Route::get('/property/{id}/edit', [PropertyController::class, 'edit'])->name('property.edit');
 
     // My Bookings
     Route::get('/mybookings', [BookingController::class, 'index'])->name('mybookings');
@@ -46,21 +46,36 @@ Route::middleware('auth')->group(function () {
 
 });
 
-// // user profile
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
-//     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
-// });
+// user profile
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
 
-// Members Only (kalau testing, ini di comment aja)
-// Route::middleware(['auth', 'member'])->group(function () {
-//     // Favorite Page
-//     Route::get('/favorites', [PropertyController::class, 'favorites'])->name('favorites');
-// });
+// Members Only
+Route::middleware(['auth', 'member'])->group(function () {
+    // Favorite Page
+    Route::get('/favorites', [PropertyController::class, 'favorites'])->name('favorites');
+
+    // Favorite Toggle
+    Route::post('/favorite/{id}', [PropertyController::class, 'toggleFavorite'])->name('favorite.toggle');
+});
 
 // user profile (only member can access)
 Route::middleware(['auth', 'member'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+Route::middleware('auth')->group(function () {
+
+    // Edit Property Form
+    Route::get('/property/{id}/edit', [PropertyController::class, 'edit'])
+        ->name('property.edit');
+
+    // Update Property
+    Route::post('/property/{id}/update', [PropertyController::class, 'update'])
+        ->name('property.update');
+
 });
 
