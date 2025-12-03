@@ -63,6 +63,7 @@
             border-radius: 20px;
             font-weight: 600;
             border: none;
+            text-decoration: none !important;
         }
 
         .user-dropdown-toggle {

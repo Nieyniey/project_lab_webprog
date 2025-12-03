@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Properties;
 use App\Models\BookingHeader;
+use App\Models\BookingDetail;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,41 +14,56 @@ class BookingController extends Controller
 {
     public function book(Request $request, $id)
     {
-        $request->validate([
-            'check_in' => 'required|date|after_or_equal:today',
-            'check_out' => 'required|date|after:check_in',
-            'guests' => 'required|integer|min:1'
-        ]);
+        $today = now()->startOfDay();
+        $property = Properties::findOrFail($id);
 
-        $properties = Properties::findOrFail($id);
+        if ($property->IsAvailable == 0) {
+            return back()->with('error', 'The property is currently unavailable. Please select another property.');
+        }
 
-        $alreadyBooked = BookingHeader::whereHas('details', function ($q) use ($id) {
-            $q->where('PropertyID', $id);
-        })
-        ->where(function ($date) use ($request) {
-            $date->whereBetween('CheckInDate', [$request->check_in, $request->check_out])
-                ->orWhereBetween('CheckOutDate', [$request->check_in, $request->check_out])
-                ->orWhere(function ($overlap) use ($request) {
-                    $overlap->where('CheckInDate', '<=', $request->check_in)
-                            ->where('CheckOutDate', '>=', $request->check_out);
-                });
-        })
-        ->exists();
+        $checkIn  = Carbon::parse($request->check_in);
+        $checkOut = Carbon::parse($request->check_out);
+        $nights   = $checkOut->diffInDays($checkIn);
 
-        if ($alreadyBooked) {
-            return back()->with('error', 'The property is unavailable for the selected dates. Please select another range.');
+        if ($checkIn->lt($today)) {
+            return back()->with('error', 'The property is currently unavailable. Please select another dates range.');
+        }
+
+        if ($checkOut->lt($today)) {
+            return back()->with('error', 'The property is currently unavailable. Please select another dates range.');
+        }
+
+        if ($checkOut->lte($checkIn)) {
+            return back()->with('error', 'The property is currently unavailable. Please select another dates range.');
+        }
+
+        $detail = BookingDetail::where('PropertyID', $id)->first();
+        $pricePerNight = $detail->Price;
+        $total = $nights * $pricePerNight;
+
+        if (!$detail) {
+            return back()->with('error', 'Booking details not found.');
+        }
+
+        if ($request->guests > $detail->GuestCount) {
+            return back()->with('error', 'The property is currently unavailable for that many guests. Please select another guests range.');
         }
 
         BookingHeader::create([
-            'user_id' => auth()->id(),
-            'property_id' => $id,
-            'check_in' => $request->check_in,
-            'check_out' => $request->check_out,
-            'guests' => $request->guests
+            'UserID'       => auth()->id(),
+            'PropertyID'   => $id,
+            'CheckInDate'  => $request->check_in,
+            'CheckOutDate' => $request->check_out,
+            'BookingStatus'=> 'pending',
+            'BookingDate'  => now(), 
+            'ReviewStatus'  => 'not_reviewed',
+            'TotalPrice'   => $total,
         ]);
 
-        return back()->with('success', 'Booking request submitted successfully!');
+
+        return redirect()->route('mybookings')->with('success', 'Booking created successfully!');
     }
+
 
     public function index()
     {
