@@ -169,11 +169,13 @@
                 @guest
                 {{-- Guest: show form but send to login --}}
                 <form action="{{ route('login') }}">
+                    @csrf
+
                     <label class="mt-2">Check-in</label>
-                    <input type="date" class="date-input" disabled>
+                    <input type="date" name="check_in" class="date-input" required>
 
                     <label class="mt-3">Check-out</label>
-                    <input type="date" class="date-input" disabled>
+                    <input type="date" name="check_out" class="date-input" required>
 
                     <label class="mt-3">Guests</label>
 
