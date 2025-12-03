@@ -98,6 +98,18 @@
         text-align: center;
         font-size: 16px;
     }
+
+    .review-title {
+        max-width: 700px;
+        margin: 40px auto 0 auto; 
+    }
+
+    .review-wrapper {
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        margin-bottom: 80px;
+    }
 </style>
 
 <div class="container mt-4">
@@ -133,7 +145,7 @@
             </p>
 
             {{-- PRICE --}}
-            <div class="property-price">Rp {{ number_format($properties->price, 0, ',', '.') }}
+            <div class="property-price">Rp {{ number_format($properties->Price, 0, ',', '.') }}
                  <span class="per-night"> / night</span>
             </div>
 
@@ -228,20 +240,36 @@
         </div>
     </div>
 
-    {{-- REVIEWS SECTION --}}
-    <h3 class="mt-5" style="font-weight:700;">Reviews</h3>
+    {{-- REVIEWS --}}
+    <h3 class="mt-5 review-title">Reviews</h3>
 
-    @forelse ($properties->reviews as $review)
-        <div class="card p-3 mt-3 review-card">
-            <strong>{{ $review->bookingheader->user->Name }}</strong>
-            <p>{{ $review->Comment }}</p>
-            <small class="text-muted-custom">
-                Reviewed on {{ $review->created_at->format('F d, Y') }}
-            </small>
+    <div class="d-flex justify-content-center">
+        <div class="review-wrapper">
+
+            @forelse ($properties->reviews as $review)
+                <div class="card p-3 mt-3 review-card">
+
+                    {{-- Top row: name + rating --}}
+                    <div class="d-flex justify-content-between">
+                        <strong>{{ $review->bookingheader->user->Name }}</strong>
+                        <span class="review-rating">{{ $review->Rating ?? '—' }} ★</span>
+                    </div>
+
+                    {{-- Comment --}}
+                    <p class="mt-2">{{ $review->Comment }}</p>
+
+                    {{-- Date --}}
+                    <small class="text-muted-custom d-block mt-1">
+                        Reviewed on {{ \Carbon\Carbon::parse($review->ReviewDate)->format('F d, Y') }}
+                    </small>
+
+                </div>
+            @empty
+                <p class="text-muted-custom mt-2 text-center">No reviews yet.</p>
+            @endforelse
+
         </div>
-    @empty
-        <p class="text-muted-custom mt-2">No reviews yet.</p>
-    @endforelse
+    </div>
     
 </div>
 

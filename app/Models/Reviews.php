@@ -8,6 +8,10 @@ class Reviews extends Model
 {
     protected $table = 'reviews';
 
+    protected $casts = [
+        'ReviewDate' => 'datetime',
+    ];
+
     protected $fillable = [
         'BookingID',
         'Rating',

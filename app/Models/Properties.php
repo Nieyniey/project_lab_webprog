@@ -37,4 +37,17 @@ class Properties extends Model
     {
         return $this->belongsToMany(User::class, 'favorites', 'PropertyID', 'UserID');
     }
+
+    public function reviews()
+    {
+        return $this->hasManyThrough(
+            Reviews::class,
+            BookingDetail::class,
+            'PropertyID',      // Foreign key on bookingdetail
+            'BookingID',       // Foreign key on reviews
+            'id',              // Local key on properties
+            'BookingID'        // Local key on bookingdetail
+        );
+    }
+
 }

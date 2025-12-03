@@ -65,6 +65,39 @@
             border: none;
             text-decoration: none !important;
         }
+
+        .user-dropdown-toggle {
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .user-dropdown-toggle:hover {
+            color: #000;
+        }
+
+        .user-dropdown-toggle .arrow {
+            margin-left: 6px;
+            font-size: 12px;
+        }
+
+        .user-dropdown-menu {
+            width: 180px;
+            border-radius: 12px;
+            padding: 8px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .user-dropdown-menu .dropdown-item {
+            font-size: 14px;
+            padding: 8px 15px;
+        }
+
+        .user-dropdown-menu .dropdown-item:hover {
+            background: #f4f4f4;
+        }
     </style>
 </head>
 
@@ -99,7 +132,7 @@
         </div>
 
         {{-- Navigation --}}
-        <a class="nav-link-custom" href="#">About</a>
+        <a class="nav-link-custom" href="#">About Us</a>
 
         {{-- If NOT logged in --}}
         @guest
@@ -109,13 +142,31 @@
 
         {{-- If logged in --}}
         @auth
-            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                @csrf
-                <button class="btn-signup">Logout</button>
-            </form>
+            <div class="dropdown ms-3">
+
+                <a href="#" class="user-dropdown-toggle" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    Hello, {{ Auth::user()->Name }}
+                    <span class="arrow">&#9662;</span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userMenu">
+                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="/bookings">My Bookings</a></li>
+                    <li><a class="dropdown-item" href="/favorites">Favorites</a></li>
+                    <li><a class="dropdown-item" href="/property/add">Add Property</a></li>
+                    <li><a class="dropdown-item" href="/my-properties">My Properties</a></li>
+                    
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="dropdown-item text-danger">Sign out</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         @endauth
-
-
     </nav>
 
     {{-- Page Content --}}
