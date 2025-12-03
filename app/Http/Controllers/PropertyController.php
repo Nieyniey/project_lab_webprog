@@ -88,10 +88,22 @@ class PropertyController extends Controller
         return view('layouts.myProperties', compact('properties'));
     }
 
+    public function favorites()
+    {
+        $favorites = auth()->user()
+            ->favorites()        
+            ->with('propertycategory')
+            ->get();
+
+        return view('layouts.favorites', compact('favorites'));
+    }
+
     // Edit property (DUMMY)
     public function edit($id)
     {
         $properties = Properties::with('user', 'propertycategory')->findOrFail($id);
         return view('layouts.propertyDetail', compact('properties'));
     }
+
+    
 }
