@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Properties;
 use App\Models\BookingHeader;
+use App\Models\Booking;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
@@ -18,12 +20,18 @@ class BookingController extends Controller
 
         $properties = Properties::findOrFail($id);
 
-        $alreadyBooked = BookingHeader::where('property_id', $id)
-            ->where(function ($q) use ($request) {
-                $q->whereBetween('check_in', [$request->check_in, $request->check_out])
-                  ->orWhereBetween('check_out', [$request->check_in, $request->check_out]);
-            })
-            ->exists();
+        $alreadyBooked = BookingHeader::whereHas('details', function ($q) use ($id) {
+            $q->where('PropertyID', $id);
+        })
+        ->where(function ($date) use ($request) {
+            $date->whereBetween('CheckInDate', [$request->check_in, $request->check_out])
+                ->orWhereBetween('CheckOutDate', [$request->check_in, $request->check_out])
+                ->orWhere(function ($overlap) use ($request) {
+                    $overlap->where('CheckInDate', '<=', $request->check_in)
+                            ->where('CheckOutDate', '>=', $request->check_out);
+                });
+        })
+        ->exists();
 
         if ($alreadyBooked) {
             return back()->with('error', 'The property is unavailable for the selected dates. Please select another range.');
