@@ -18,6 +18,7 @@
         transition: 0.2s;
         text-decoration: none !important;
         color: inherit !important;
+        position: relative; 
     }
 
     .property-card:hover {
@@ -56,11 +57,46 @@
         color: #555;
         font-weight: 400;
     }
+
+    /* Heart icon styling */
+    .favorite-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+        background: none;
+        border: none;
+        padding: 0;
+    }
 </style>
 
 <div class="property-grid">
     @foreach ($properties as $p)
         <div class="property-card">
+
+            {{-- ================= FAVORITE BUTTON ================= --}}
+            @auth
+                @if (Auth::user()->role === 'member')
+                    <form action="{{ route('favorite.toggle', $p->id) }}" 
+                        method="POST" class="favorite-btn">
+                        @csrf
+
+                        @php
+                            $favorited = Auth::user()->favorites->contains($p->id);
+                        @endphp
+
+                        <button type="submit" class="favorite-btn">
+                            @if ($favorited)
+                                <i class="fas fa-heart text-danger fs-3"></i>
+                            @else
+                                <i class="far fa-heart text-white fs-3"></i>
+                            @endif
+                        </button>
+                    </form>
+                @endif
+            @endauth
+            {{-- ===================================================== --}}
+
             <a href="{{ route('property.detail', $p->id) }}" class="property-card">
 
                 <img src="{{ asset('properties/' . $p->Photos) }}" 
@@ -71,11 +107,13 @@
                     <h3>{{ $p->Title }}</h3>
                     <p>{{ $p->Location }}</p>
                     <div class="property-price">Rp {{ number_format($p->Price, 0, ',', '.') }}
-                        <span class="per-night"> / night</span></div>
+                        <span class="per-night"> / night</span>
+                    </div>
                 </div>
+
             </a>
         </div>
-        @endforeach
+    @endforeach
 </div>
 
 @endsection

@@ -42,7 +42,8 @@ Route::middleware('auth')->group(function () {
 
     // Review Page 
     Route::get('/review/{id}', [ReviewController::class, 'show'])->name('review.page');
-    Route::post('/review/{id}', [ReviewController::class, 'store'])->name('review.submit');    
+    Route::post('/review/{id}', [ReviewController::class, 'store'])->name('review.submit');  
+
 });
 
 // user profile
@@ -51,8 +52,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-// Members Only (kalau testing, ini di comment aja)
+// Members Only
 Route::middleware(['auth', 'member'])->group(function () {
     // Favorite Page
     Route::get('/favorites', [PropertyController::class, 'favorites'])->name('favorites');
+
+    // Favorite Toggle
+    Route::post('/favorite/{id}', [PropertyController::class, 'toggleFavorite'])->name('favorite.toggle');
 });
